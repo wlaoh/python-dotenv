@@ -4,3 +4,4 @@ sh>=1.09
 bumpversion
 coverage==3.7.1
 wheel
+tox

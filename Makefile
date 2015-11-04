@@ -1,4 +1,4 @@
-.PHONY: clean-pyc clean-build
+.PHONY: clean-pyc clean-build test
 
 clean: clean-build clean-pyc
 
@@ -6,6 +6,8 @@ clean-build:
 	rm -fr build/
 	rm -fr dist/
 	rm -fr *.egg-info
+	rm -fr .tox
+	rm -fr __pycache__
 
 clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
@@ -19,3 +21,6 @@ release: clean
 sdist: clean
 	python setup.py sdist
 	ls -l dist
+
+test:
+	tox

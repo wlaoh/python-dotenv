@@ -1,27 +1,17 @@
 language: python
 sudo: false
-python:
-- '2.6'
-- '2.7'
-- '3.3'
-- '3.4'
-- '3.5'
-- pypy
+env:
+    - TOX_ENV=py27-flake8
+    - TOX_ENV=py27-coverage
+    - TOX_ENV=py26
+    - TOX_ENV=py27
+    - TOX_ENV=py33
+    - TOX_ENV=py34
+    - TOX_ENV=py35
+    - TOX_ENV=pypy
+
 install:
-- pip install python-coveralls
-- pip install -q -r requirements.txt
-- pip install --editable .
-before_script: flake8
+  - pip install tox
+
 script:
-- coverage run --source=dotenv.py --omit='*tests*' -m py.test tests/ -v --tb=native
-- coverage report
-after_script:
-- coveralls
-deploy:
-  provider: pypi
-  user: theskumar
-  password:
-    secure: VdULnucEUBZB0qZFKrP0kGdxYOY02QrvJBvVAHDc4CBhvPWcfF5HpEWD1CDNr2wdvg5Wwi5WGgX66Rthkrsw6akPwB+aPA++bFZ0uMHy392Nu4hxusX915R3JGnQ7L53aYrohOsJ7JsrZ7n12I38LJSewfkyQydAxjhJA+3hAtw=
-  on:
-    tags: true
-    repo: theskumar/python-dotenv
+    - tox -e $TOX_ENV
