@@ -90,12 +90,21 @@ class DotEnv():
 
     def set_as_environment_variables(self, override=False):
         """
-        Load the current dotenv as system environemt variable.
+        Load the current dotenv as system environment variable.
         """
         for k, v in self.dict().items():
             if k in os.environ and not override:
                 continue
             os.environ[k] = v
+
+        return True
+
+    def unset_as_environment_variables(self):
+        """
+        Unload the current dotenv as system environment variable.
+        """
+        for k, v in self.dict().items():
+            del os.environ[k]
 
         return True
 
@@ -253,6 +262,11 @@ def find_dotenv(filename='.env', raise_error_if_not_found=False, usecwd=False):
 def load_dotenv(dotenv_path=None, stream=None, verbose=False, override=False):
     f = dotenv_path or stream or find_dotenv()
     return DotEnv(f, verbose=verbose).set_as_environment_variables(override=override)
+
+
+def unload_dotenv(dotenv_path=None, stream=None, verbose=False):
+    f = dotenv_path or stream or find_dotenv()
+    return DotEnv(f, verbose=verbose).unset_as_environment_variables()
 
 
 def dotenv_values(dotenv_path=None, stream=None, verbose=False):

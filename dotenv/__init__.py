@@ -1,4 +1,4 @@
-from .main import load_dotenv, get_key, set_key, unset_key, find_dotenv, dotenv_values
+from .main import load_dotenv, unload_dotenv, get_key, set_key, unset_key, find_dotenv, dotenv_values
 
 
 def load_ipython_extension(ipython):
@@ -32,6 +32,7 @@ def get_cli_string(path=None, action=None, key=None, value=None, quote=None):
 
 __all__ = ['get_cli_string',
            'load_dotenv',
+           'unload_dotenv'
            'dotenv_values',
            'get_key',
            'set_key',

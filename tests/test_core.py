@@ -7,7 +7,7 @@ import tempfile
 import warnings
 import sh
 
-from dotenv import load_dotenv, find_dotenv, set_key, dotenv_values
+from dotenv import load_dotenv, unload_dotenv, find_dotenv, set_key, dotenv_values
 from dotenv.main import parse_line
 from dotenv.compat import StringIO
 from IPython.terminal.embed import InteractiveShellEmbed
@@ -91,6 +91,21 @@ def test_load_dotenv(cli):
         assert success
         assert 'DOTENV' in os.environ
         assert os.environ['DOTENV'] == 'WORKS'
+        sh.rm(dotenv_path)
+
+
+def test_unload_dotenv(cli):
+    dotenv_path = '.test_load_dotenv'
+    with cli.isolated_filesystem():
+        sh.touch(dotenv_path)
+        set_key(dotenv_path, 'DOTENV', 'WORKS')
+        success = load_dotenv(dotenv_path)
+        assert success
+        assert 'DOTENV' in os.environ
+        assert os.environ['DOTENV'] == 'WORKS'
+        success = unload_dotenv(dotenv_path)
+        assert success
+        assert 'DOTENV' not in os.environ
         sh.rm(dotenv_path)
 
 
